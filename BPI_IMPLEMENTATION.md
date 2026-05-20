@@ -109,6 +109,16 @@ public String generateAuthSignature(
 }
 ```
 
+### 2.1.1 Function Parameter
+---
+| Key | Type | Length | Mandatory | Description | Sample Value |
+|-------------|--------|--------|-----------|--------------------------------------|----------------------------------------|
+| clientId | String | N.A | Y | Client UUID from Registration Process | 53e75332-b619-4688-ad45-37d279110a16 |
+| timestamp | String | N.A | Y | TimeStamp when initiating process | 2026-05-20T13:45:12.123+07:00 |
+| privateKeyPem | String | N.A | Y | Private Key from Registration Process | -----BEGIN PRIVATE KEY----- |
+|  | |  |  | | asdasgdjhg2jg21hj3g1jg3jh1g23hj12g|
+|  | |  |  | | -----END PRIVATE KEY----- |
+
 ### 2.2 Usage
 ```java
 ZonedDateTime now = ZonedDateTime.now(TimeZone.getTimeZone("Asia/Jakarta").toZoneId());
@@ -157,6 +167,17 @@ public static String generateTransactionSignature(
             hmac.doFinal(stringToSign.getBytes(StandardCharsets.UTF_8)));
 }
 ```
+
+### 3.1.1 Function Parameter
+---
+| Key | Type | Length | Mandatory | Description | Sample Value |
+|-------------|--------|--------|-----------|--------------------------------------|----------------------------------------|
+| httpMethod | String | N.A | Y | endpoint method | POST |
+| endPoint | String | N.A | Y | url endpoint | /auth-service/authentication/v2/access-token/b2b |
+| token | String | N.A | Y | B2B Token | asdasgdjhg2jg21hj3g1jg3jh1g23hj12g |
+| timestamp | String | N.A | Y | TimeStamp when initiating process | 2026-05-20T13:45:12.123+07:00 |
+| body | String | N.A | Y | Empty String by default |  |
+| clientSecret | String | N.A | Y | channel id from B2B Token Response |  53e75332-b619-4688-ad45-37d279110a16 |
 
 ### 3.2 Usage
 ```java
@@ -288,24 +309,33 @@ Sample Response
 ---
 POST auth-service/authentication/v2/access-token/b2b
 
-#### 5.1.3 Body Parameter
+#### 5.1.3 Header Parameter
+---
+| Key                  | Type   | Length | Mandatory | Description                                         | Sample Value                              |
+|----------------------|--------|--------|-----------|-----------------------------------------------------|--------------------------------------------|
+| X-CLIENT-KEY         | String | N.A    | Y         | clientId from registration process                                            | c04ee779-1a81-4453-83ea-fd370e9f4cc9      |
+| X-TIMESTAMP          | String | N.A    | Y         | Timestamp when create secretKey and privateKey signature | 7xDTUTKUlUF1e5XC9OsBxNJEN4C...           |
+| X-SIGNATURE          | String | N.A    | Y         | privateKey Signature                                | SIGNATURE                                  |
+
+#### 5.1.4 Body Parameter
 ---
 | Key            | Type   | Length | Mandatory | Description                          | Sample Value     |
 |----------------|--------|--------|-----------|--------------------------------------|-------------------|
 | grantType      | String | N A    | Y         | -                                    | client_credentials         |
 
-#### 5.1.4 Response
+
+#### 5.1.5 Response
 ---
 | Property       | Type Data | Sample Value                              |
 |---------------|----------|--------------------------------------------|
 | accessToken   | String   | 8S1NjMEMF3IqQr2Q1PgPAN26j1aA                 |
 | tokenType     | String   | Bearer                                     |
-| expiresIn     | String   | 900                                        |
+| expiresIn     | String   | 900 (Seconds)                                        |
 | sessionId     | UUID     | d568e0f0-740e-42fc-a65e-c8860a50cd3d         |
 | successCode   | String   | 43                                         |
 | successMessage| String   | Success                                    |
 
-#### 5.1.5 Data Relations
+#### 5.1.6 Data Relations
 ---
 | Property     | Mapping                          | Relations                    |
 |-------------|----------------------------------|------------------------------|
@@ -313,7 +343,7 @@ POST auth-service/authentication/v2/access-token/b2b
 | tokenType   | OAuth2AccessToken.getTokenType   |                              |
 | sessionId   | MST_USER_SESSIONS.SESSION_ID     |                              |
 
-#### 5.1.6 Error List
+#### 5.1.7 Error List
 ---
 | Code    | Message Error           | HTTP Code |
 |---------|------------------------|----------|
@@ -410,7 +440,7 @@ POST auth-service/authentication/v2/access-token/b2b2c
 | customerId          | String    | UUID                                    |
 | accessToken             | String    | B2B2C Token             |
 | tokenType               | String    | Bearer                                     |
-| accessTokenExpiryTime   | String    | 900                                        |
+| accessTokenExpiryTime   | String    | 1296000 (In Seconds - 15 Days)                                        |
 | refreshToken            | String    | 8S1NjMEMF3IqQr2Q1PgPAN26j1aA             |
 | refreshTokenExpiryTime  | String    | 900                                        |
 | successCode             | String    | 43                                         |
