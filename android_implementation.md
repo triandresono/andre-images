@@ -117,26 +117,16 @@ AvantradeSDK.launch(context, config, oneTimeToken, new DashboardPage());
 
 ---
 
-### 6.2 OrderFormPage
-
-Launches the order/buy form screen. No additional parameters required.
-
-```java
-AvantradeSDK.launch(context, config, oneTimeToken, new OrderFormPage());
-```
-
----
-
-### 6.3 InvestmentFundPage
+### 6.2 InvestmentFundPage
 
 Launches the product holding screen for a specific investment fund type. Requires a `typeId` corresponding to the fund's unique identifier.
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `typeId` | `String` | Unique identifier (UUID) of the investment fund type |
+| `typeId` | `String` | Unique identifier of the investment fund type |
 
 ```java
-AvantradeSDK.launch(context, config, oneTimeToken, new InvestmentFundPage("your-fund-uuid"));
+AvantradeSDK.launch(context, config, oneTimeToken, new InvestmentFundPage("investment-type"));
 ```
 
 ---
@@ -146,5 +136,4 @@ AvantradeSDK.launch(context, config, oneTimeToken, new InvestmentFundPage("your-
 | Page Class | Target Screen | Parameters |
 |---|---|---|
 | `DashboardPage` | Main dashboard | None |
-| `OrderFormPage` | Buy/order form | None |
-| `InvestmentFundPage` | Product holding | `typeId` (String, UUID) |
+| `InvestmentFundPage` | Product holding | `type` (String) |
